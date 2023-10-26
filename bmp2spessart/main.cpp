@@ -126,9 +126,11 @@ int main(int argc, char** argv) {
 		convert(path);
 	}
 	catch (const std::exception& e) {
-		std::cerr << e.what() << std::endl;
+		std::cerr << e.what();
 	}
-	
+
+	std::cout << std::endl << std::endl;
+
 	std::cout << "Done, press any key to exit";
 	system("pause");
 	return 0;

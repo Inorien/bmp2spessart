@@ -10,23 +10,23 @@
 void convert(const std::string& path) {
 	auto* const file{ fopen(path.c_str(), "rb") };
 	if (!file) {
-		const auto message{ "File not found:" + std::string(path) };
+		const auto message{ "File not found:" + path };
 		throw std::exception{message.c_str()};
 	}
 
 	unsigned char header[54];
 	if (fread(header, 1, 54, file) != 54) {
-		const auto message{ "File is invalid or corrupted: " + std::string(path) };
+		const auto message{ "File is invalid or corrupted: " + path };
 		throw std::exception{message.c_str()};
 	}
 	if (header[0] != 'B' || header[1] != 'M') {
-		const auto message{ "File is invalid or corrupted: " + std::string(path) };
+		const auto message{ "File is invalid or corrupted: " + path };
 		throw std::exception{message.c_str()};
 	}
 
 	const auto bits{ *reinterpret_cast<int*>(&header[0x1C]) };
 	if (bits != 24) {
-		const auto message{ "File is not a 24bit BMP: " + std::string(path)
+		const auto message{ "File is not a 24bit BMP: " + path
 			+ " is " + std::to_string(bits) + "bit" };
 		throw std::exception{message.c_str()};
 	}
@@ -41,7 +41,7 @@ void convert(const std::string& path) {
 
 	std::vector<std::string> pixel_data;
 
-	for (int y = height; y-- > 0;) {
+	for (int y = height; y-->0;) {
 		for (int x = 0; x < width; x++) {
 			int offset = y * width + x;
 			offset *= 3; //3 byte per pixel in 24bit, index into correct pixel and subindex by byte below

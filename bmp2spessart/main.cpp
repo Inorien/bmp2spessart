@@ -10,7 +10,7 @@
 void convert(const std::string& path) {
 	auto* const file{ fopen(path.c_str(), "rb") };
 	if (!file) {
-		const auto message{ "File not found:" + path };
+		const auto message{ "File not found: " + path };
 		throw std::exception{message.c_str()};
 	}
 
@@ -118,19 +118,19 @@ int main(int argc, char** argv) {
 	else if (argc == 2) {
 		path = argv[1];
 	}
-	else {
-		std::cerr << "Unsupported launch: try bmp2spessart <file>" << std::endl;
-		return 1;
-	}
 
+	if (path.empty()) {
+		std::cerr << "Unsupported launch: try bmp2spessart <file>" << std::endl;
+	} else 
 	try {
 		convert(path);
 	}
 	catch (const std::exception& e) {
-		std::cerr << e.what();
-		return 1;
+		std::cerr << e.what() << std::endl;
 	}
-
+	
+	std::cout << "Done, press any key to exit";
+	system("pause");
 	return 0;
 
 }
